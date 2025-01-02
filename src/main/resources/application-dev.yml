@@ -6,7 +6,7 @@ spring:
     url: jdbc:mysql://133.186.241.167:3306/nhn_academy_21?useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: nhn_academy_21
-    password: *L]RAMG*8NYJnCKK
+    password: "*L]RAMG*8NYJnCKK"
     #    url: jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC
     #    username: root
     #    password: 3489
@@ -24,9 +24,6 @@ spring:
   sql:
     init:
       mode: always
-  web:
-    resources:
-      static-locations: file:upload/
 
   servlet:
     multipart:

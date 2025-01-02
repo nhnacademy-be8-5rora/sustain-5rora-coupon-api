@@ -18,6 +18,7 @@ public class CouponPolicy {
     @Column(name = "policy_name", nullable = false)
     private String name;  // 정책 이름
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "sale_type", nullable = false)
     private SaleType saleType;  // 할인 종류
 
