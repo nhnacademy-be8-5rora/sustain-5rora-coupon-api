@@ -1,0 +1,17 @@
+INSERT INTO `discount_rule` (max_sale, need_cost, sale_amount, sale_percent)
+VALUES (null, 50000, 10000, null);
+
+INSERT INTO `coupon_policy` (policy_name, sale_type, discount_id)
+VALUES ('Welcome', 'AMOUNT', 1);  -- discount_id = 1 (앞서 삽입한 할인 규칙을 참조)
+
+# INSERT INTO `book_policy` (book_id, policy_id)
+# VALUES (1, 1);  -- book_id = 1 (책 ID), policy_id = 1 (쿠폰 정책 ID)
+#
+# INSERT INTO `category_policy` (category_id, policy_id)
+# VALUES (1, 1);  -- category_id = 1 (카테고리 ID), policy_id = 1 (쿠폰 정책 ID)
+
+INSERT INTO `user_coupon` (user_id, coupon_id, policy_id, coupon_state, start_date, end_date, change_period)
+VALUES ('user123', 1, 1, 'LIVE', '2025-01-01', '2025-02-01', '2025-01-01');
+
+INSERT INTO `user_coupon` (user_id, policy_id, coupon_state, start_date, end_date, change_period)
+VALUES ('apple', 1, 'LIVE', '2025-01-01', '2025-02-01', '2025-01-01');
