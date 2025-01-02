@@ -1,12 +1,9 @@
 package store.aurora.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import store.aurora.service.CouponService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/coupon")

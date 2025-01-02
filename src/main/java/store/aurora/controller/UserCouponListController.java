@@ -18,7 +18,7 @@ public class UserCouponListController {
 
     private final CouponListService couponListService;
 
-    @GetMapping(value = "/coupon/list")
+    @GetMapping(value = "/list")
     public ResponseEntity<List<UserCouponDTO>> couponList(@RequestHeader(value = "X-USER-ID") String userId) {
         List<UserCouponDTO> userCouponList = couponListService.getCouponList(userId);
 
@@ -26,7 +26,7 @@ public class UserCouponListController {
     }
 
     //결제창에서 상품마다 사용가능 쿠폰 리스트 확인(매 상품마다 사용 가능한 쿠폰이 뜨게 해야 됨.
-    @PostMapping(value = "/coupon/usable")
+    @GetMapping(value = "/usable")
     public ResponseEntity<Map<Long, List<String>>>proCouponList(@RequestHeader(value = "X-USER-ID") String userId,
                                                           @RequestBody @Validated List<ProductInfoDTO> productInfoDTO) {   //결제 API에서 필요한 값을 받아야함
 
