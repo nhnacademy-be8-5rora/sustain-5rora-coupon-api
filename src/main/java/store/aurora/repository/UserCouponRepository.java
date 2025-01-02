@@ -14,9 +14,8 @@ import java.util.List;
 @Repository
 public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
 
-    List<UserCoupon> findAllByUserId(String id);
-
-    List<UserCoupon> findByUserId(String userId);
+    @Query("SELECT u FROM UserCoupon u WHERE u.userId = :userId")
+    List<UserCoupon> findByUserId(@Param("userId") String userId);
 
     //관리자가 특정 사용자 ID 리스트에 해당하는 UserCoupon들의 couponState/endDate/policyId 업데이트
     @Modifying
