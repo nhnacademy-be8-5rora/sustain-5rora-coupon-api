@@ -10,7 +10,7 @@
 #    bucket-name: YOUR_BUCKET_NAME
 
 server:
-  port: 8481
+  port: 9490
 
 spring:
   datasource:
