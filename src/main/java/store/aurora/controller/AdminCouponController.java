@@ -2,7 +2,6 @@ package store.aurora.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import store.aurora.dto.*;
 import store.aurora.service.AdminCouponService;
@@ -19,15 +18,14 @@ public class AdminCouponController {
     // 쿠폰정책 생성 (관리자) -> 쿠폰 정책은 생성밖에 안됨(정책 수정, 삭제시 -> 이전에 해당 쿠폰을 가진 유저들이 피해를 볼 수 있음)
     //@Validated 유효 검증(무결성)
     @PostMapping(value = "/create")
-    public ResponseEntity<String> couponPolicyCreate(@RequestBody @Validated
-                                                         RequestCouponPolicyDTO requestCouponPolicyDTO) {
+    public ResponseEntity<String> couponPolicyCreate(@RequestBody RequestCouponPolicyDTO requestCouponPolicyDTO) {
 
         DiscountRuleDTO discountRuleDTO = requestCouponPolicyDTO.getDiscountRuleDTO();
         AddPolicyDTO addPolicyDTO = requestCouponPolicyDTO.getAddPolicyDTO();
 
         //salePercent, saleAmount 둘 중 하나는 반드시 값이 있어야 한다
         if(discountRuleDTO.getSalePercent() == null && discountRuleDTO.getSaleAmount() == null){
-            throw new IllegalArgumentException("salePercent and saleAmount both must not be null");
+            throw new IllegalArgumentException("할인율과 할인량이 동시에 존재하면 안된다.");
         }
 
         adminCouponService.couponPolicyCreate(requestCouponPolicyDTO,
@@ -38,8 +36,7 @@ public class AdminCouponController {
 
     //사용자 쿠폰 생성(특정 한명에게 줄 수 있으며, 특정 조건을 충족한 유저들에게 쿠폰을 뿌릴 수 있도록 함)
     @PostMapping("/distribution")
-    public ResponseEntity<String> userCouponCreate(@RequestBody @Validated
-                                                       RequestUserCouponDTO requestUserCouponDTO) {
+    public ResponseEntity<String> userCouponCreate(@RequestBody RequestUserCouponDTO requestUserCouponDTO) {
 
         adminCouponService.userCouponCreate(requestUserCouponDTO);
 
@@ -48,10 +45,10 @@ public class AdminCouponController {
 
     // 사용자쿠폰 수정 (관리자)
     @PutMapping(value = "/update")
-    public ResponseEntity<String> userCouponUpdate(@RequestBody @Validated
-                                                       UpdateUserCouponByUserIdDto updateUserCouponByUserIdDto) {
+    public ResponseEntity<String> userCouponUpdate(@RequestBody UpdateUserCouponByUserIdDto updateUserCouponByUserIdDto) {
 
         adminCouponService.couponUpdate(updateUserCouponByUserIdDto);  // 실제 쿠폰 수정 처리
+
         return ResponseEntity.ok("사용자쿠폰이 수정되었습니다.");
     }
 
