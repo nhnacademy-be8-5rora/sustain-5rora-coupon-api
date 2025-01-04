@@ -10,7 +10,7 @@ public class OpenAPIConfiguration {
 
     private static final String API_NAME = "Book Shopping MAll";
     private static final String API_VERSION = "1.0.0";
-    private static final String API_DESCRIPTION = "북 쇼핑몰의 shop api";
+    private static final String API_DESCRIPTION = "북 쇼핑몰의 coupon api";
 
     @Bean
     public OpenAPI openAPIConfig() {
