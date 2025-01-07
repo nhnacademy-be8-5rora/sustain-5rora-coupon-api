@@ -25,7 +25,11 @@ public class AdminCouponController {
 
         //salePercent, saleAmount 둘 중 하나는 반드시 값이 있어야 한다
         if(discountRuleDTO.getSalePercent() == null && discountRuleDTO.getSaleAmount() == null){
-            throw new IllegalArgumentException("할인율과 할인량이 동시에 존재하면 안된다.");
+            throw new IllegalArgumentException("할인율과 할인량이 둘다 존재 안하면 안된다.");
+        }
+
+        if(discountRuleDTO.getSalePercent() != null && discountRuleDTO.getSaleAmount() != null){
+            throw new IllegalArgumentException("할인율과 할인량은 동시에 설정할 수 없습니다.");
         }
 
         adminCouponService.couponPolicyCreate(requestCouponPolicyDTO,
