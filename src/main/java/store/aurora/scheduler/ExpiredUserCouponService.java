@@ -1,4 +1,4 @@
-package store.aurora.service;
+package store.aurora.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
