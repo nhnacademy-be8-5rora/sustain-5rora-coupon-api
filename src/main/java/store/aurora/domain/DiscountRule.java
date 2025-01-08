@@ -13,14 +13,14 @@ public class DiscountRule {
     private Long id;
 
     @Column(name = "need_cost")
-    private Integer needCost;
+    private Integer needCost;   //필요한 가격
 
     @Column(name = "max_sale")
-    private Integer maxSale;
+    private Integer maxSale;    //최대 할인가
 
     @Column(name = "sale_percent")
-    private Integer salePercent;
+    private Integer salePercent;    //할인률
 
     @Column(name = "sale_amount")
-    private Integer saleAmount;
+    private Integer saleAmount;     //할인값
 }

@@ -5,17 +5,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import store.aurora.domain.CouponPolicy;
 import store.aurora.domain.CouponState;
 import store.aurora.domain.UserCoupon;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
 
     @Query("SELECT u FROM UserCoupon u WHERE u.userId = :userId")
     List<UserCoupon> findByUserId(@Param("userId") String userId);
+
+    List<CouponPolicy> findCouponPolicyByCouponIdIn(List<Long> couponIds);
 
     //관리자가 특정 사용자 ID 리스트에 해당하는 UserCoupon들의 couponState/endDate/policyId 업데이트
     @Modifying
@@ -52,7 +56,10 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
 
     List<UserCoupon> findByUserIdIn(List<String> userIds);
 
-    @Query("SELECT uc " +
+    // userId, policyId, couponState에 맞는 데이터가 존재하는지 확인
+    boolean existsByUserIdAndPolicyId(String userId, Long policyId);
+
+    @Query("SELECT cp " +
             "FROM UserCoupon uc " +
             "JOIN uc.policy cp " +
             "LEFT JOIN cp.bookPolicies bp " +
@@ -60,20 +67,13 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
             "WHERE uc.userId = :userId " +
             "AND uc.couponState = 'LIVE' " +
             "AND ( " +
-            "  (bp.bookId IS NULL OR bp.bookId = :bookId) " + // bookId가 null일 경우, bookId 비교하지 않음
+            "  (bp.bookId IS NULL OR bp.bookId IN :bookIds) " +
             "  OR " +
-            "  (cpCat.categoryId IS NULL OR cpCat.categoryId IN :categoryIds) " + // categoryId가 null일 경우, categoryId 비교하지 않음
+            "  (cpCat.categoryId IS NULL OR cpCat.categoryId IN :categoryIds) " +
             ") " +
-            "AND (cp.discountRule.needCost IS NULL OR cp.discountRule.needCost <= :totalPrice)")
-    List<UserCoupon> findAvailableCoupons(@Param("userId") String userId,
-                                          @Param("bookId") Long bookId,
-                                          @Param("categoryIds") List<Long> categoryIds,
-                                          @Param("totalPrice") Integer totalPrice);
-
-    List<UserCoupon> findAllByEndDate(LocalDate newEndDate);
-
-    List<UserCoupon> findAllByPolicyId(Long newPolicyId);
-
-    // userId, policyId, couponState에 맞는 데이터가 존재하는지 확인
-    boolean existsByUserIdAndPolicyId(String userId, Long policyId);
+            "AND (cp.discountRule.needCost IS NULL OR cp.discountRule.needCost <= :priceMap)")
+    List<CouponPolicy> findAvailableCouponsForBatch(@Param("userId") String userId,
+                                                    @Param("bookIds") List<Long> bookIds,
+                                                    @Param("categoryIds") List<Long> categoryIds,
+                                                    @Param("priceMap") Map<Long, Integer> priceMap);
 }
