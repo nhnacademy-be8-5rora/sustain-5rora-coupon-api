@@ -19,6 +19,7 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
     @Query("SELECT u FROM UserCoupon u WHERE u.userId = :userId")
     List<UserCoupon> findByUserId(@Param("userId") String userId);
 
+    //쿠폰 정책 리스트 출력
     List<CouponPolicy> findCouponPolicyByCouponIdIn(List<Long> couponIds);
 
     //관리자가 특정 사용자 ID 리스트에 해당하는 UserCoupon들의 couponState/endDate/policyId 업데이트
@@ -44,15 +45,12 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
             "WHERE u.endDate < CURRENT_DATE AND u.couponState = 'live'")
     void updateExpiredCoupons();
 
-    //used, timeout 상태에서 90일이 지난  userCoupon 삭제
+    //endDate에서 90일이 지난  userCoupon들 삭제
     @Modifying
     @Query("DELETE FROM UserCoupon u " +
-            "WHERE u.couponState IN (:usedState, :timeoutState) " +
-            "AND u.usedDate < :ninetyDaysAgo")
+            "WHERE u.endDate < :date")
     void deleteExpiredCoupons(
-            @Param("usedState") CouponState usedState,
-            @Param("timeoutState") CouponState timeoutState,
-            @Param("ninetyDaysAgo") LocalDate ninetyDaysAgo);
+            @Param("date") LocalDate date);
 
     List<UserCoupon> findByUserIdIn(List<String> userIds);
 

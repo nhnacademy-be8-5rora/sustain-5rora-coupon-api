@@ -6,6 +6,6 @@ import store.aurora.domain.CouponPolicy;
 
 @Repository
 public interface CouponPolicyRepository extends JpaRepository<CouponPolicy, Long> {
-    CouponPolicy findByName(String testPolicy);
+
 }
 
