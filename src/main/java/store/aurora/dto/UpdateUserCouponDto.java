@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class UpdateUserCouponByUserIdDto {
+public class UpdateUserCouponDto {
         @NotNull private List<Long> updateUserIds;    // 바꿀 유저쿠폰의 ID 리스트
         private Long updatePolicyId; // 바꿀 정책의 ID
         private CouponState updateState;   // 변경할 쿠폰 상태

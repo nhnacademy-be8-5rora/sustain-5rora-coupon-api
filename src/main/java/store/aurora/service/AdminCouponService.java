@@ -29,12 +29,12 @@ public class AdminCouponService {
 
     //사용자 쿠폰 수정(요청한 쿠폰 유저 ID 리스트를 통해 해당 쿠폰들을 수정)
     @Transactional
-    public void couponUpdate(UpdateUserCouponByUserIdDto updateUserCouponByUserIdDto) {
-        CouponState couponState = updateUserCouponByUserIdDto.getUpdateState();
-        Long policyId = updateUserCouponByUserIdDto.getUpdatePolicyId();
-        LocalDate endDate = updateUserCouponByUserIdDto.getUpdateEndDate();
+    public void couponUpdate(UpdateUserCouponDto updateUserCouponDto) {
+        CouponState couponState = updateUserCouponDto.getUpdateState();
+        Long policyId = updateUserCouponDto.getUpdatePolicyId();
+        LocalDate endDate = updateUserCouponDto.getUpdateEndDate();
 
-        List<Long> userCouponIds = updateUserCouponByUserIdDto.getUpdateUserIds();
+        List<Long> userCouponIds = updateUserCouponDto.getUpdateUserIds();
 
         if (couponState != null) {
             userCouponRepository.updateCouponStateByUserIds(couponState, userCouponIds);
