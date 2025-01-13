@@ -24,19 +24,19 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
 
     //관리자가 특정 사용자 ID 리스트에 해당하는 UserCoupon들의 couponState/endDate/policyId 업데이트
     @Modifying
-    @Query("UPDATE UserCoupon uc SET uc.couponState = :couponState WHERE uc.userId IN :userIds")
+    @Query("UPDATE UserCoupon uc SET uc.couponState = :couponState WHERE uc.couponId IN :userCouponIds")
     void updateCouponStateByUserIds(@Param("couponState") CouponState couponState,
-                                    @Param("userIds") List<String> userIds);
+                                    @Param("userCouponIds") List<Long> userCouponIds);
     @Modifying
-    @Query("UPDATE UserCoupon uc SET uc.endDate = :endDate WHERE uc.userId IN :userIds")
+    @Query("UPDATE UserCoupon uc SET uc.endDate = :endDate WHERE uc.couponId IN :userCouponIds")
     void updateCouponEndDateByUserIds(@Param("endDate") LocalDate endDate,
-                                      @Param("userIds") List<String> userIds);
+                                      @Param("userCouponIds") List<Long> userCouponIds);
 
     @Modifying
     @Query("UPDATE UserCoupon uc SET uc.policy = (SELECT p FROM CouponPolicy p WHERE p.id = :policyId) " +
-            "WHERE uc.userId IN :userIds AND EXISTS (SELECT 1 FROM CouponPolicy p WHERE p.id = :policyId)")
+            "WHERE uc.couponId IN :userCouponIds AND EXISTS (SELECT 1 FROM CouponPolicy p WHERE p.id = :policyId)")
     void updateCouponPolicyByUserIds(@Param("policyId") Long policyId,  //해당 policyId을 가진 policy 없을시 퀴리 적용 안되게함
-                                     @Param("userIds") List<String> userIds);
+                                     @Param("userCouponIds") List<Long> userCouponIds);
 
     //timeout 이 된 사용자 쿠폰 상태 변경(live -> timeout)
     @Modifying

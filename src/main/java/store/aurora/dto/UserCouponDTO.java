@@ -17,5 +17,4 @@ public class UserCouponDTO {
     private LocalDate endDate;   // 종료 날짜
     private List<Long> bookIdList;  //쿠폰 사용 가능한 책 ID
     private List<Long> categoryIdList; //쿠폰 사용 가능한 카테고리 ID
-
 }

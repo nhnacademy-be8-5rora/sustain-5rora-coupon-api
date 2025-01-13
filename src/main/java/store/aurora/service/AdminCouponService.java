@@ -27,25 +27,25 @@ public class AdminCouponService {
     private  final CategoryPolicyRepository categoryPolicyRepository;
     private  final BookPolicyRepository bookPolicyRepository;
 
-    //사용자 쿠폰 수정(요청한 유저 ID 리스트를 통해 해당 ID에 포함된 userCoupons 들을 수정)
+    //사용자 쿠폰 수정(요청한 쿠폰 유저 ID 리스트를 통해 해당 쿠폰들을 수정)
     @Transactional
     public void couponUpdate(UpdateUserCouponByUserIdDto updateUserCouponByUserIdDto) {
-        CouponState couponState = updateUserCouponByUserIdDto.getState();
-        Long policyId = updateUserCouponByUserIdDto.getPolicyId();
-        LocalDate endDate = updateUserCouponByUserIdDto.getEndDate();
+        CouponState couponState = updateUserCouponByUserIdDto.getUpdateState();
+        Long policyId = updateUserCouponByUserIdDto.getUpdatePolicyId();
+        LocalDate endDate = updateUserCouponByUserIdDto.getUpdateEndDate();
 
-        List<String> userIds = updateUserCouponByUserIdDto.getUserIds();
+        List<Long> userCouponIds = updateUserCouponByUserIdDto.getUpdateUserIds();
 
         if (couponState != null) {
-            userCouponRepository.updateCouponStateByUserIds(couponState, userIds);
+            userCouponRepository.updateCouponStateByUserIds(couponState, userCouponIds);
         }
 
         if (policyId != null) {
-            userCouponRepository.updateCouponPolicyByUserIds(policyId, userIds);
+            userCouponRepository.updateCouponPolicyByUserIds(policyId, userCouponIds);
         }
 
         if (endDate != null) {
-            userCouponRepository.updateCouponEndDateByUserIds(endDate, userIds);
+            userCouponRepository.updateCouponEndDateByUserIds(endDate, userCouponIds);
         }
 
     }
@@ -54,7 +54,7 @@ public class AdminCouponService {
     @Transactional
     public boolean userCouponCreate(RequestUserCouponDTO requestUserCouponDTO) {
         try {
-            List<String> userIds = requestUserCouponDTO.getUserId(); // 유저 ID 리스트
+            List<String> userIds = requestUserCouponDTO.getUserIds(); // 유저 ID 리스트
             Long policyId = requestUserCouponDTO.getCouponPolicyId(); // 적용할 정책
             CouponState state = requestUserCouponDTO.getState();   // 쿠폰 초기 상태
             LocalDate startDate = requestUserCouponDTO.getStartDate(); // 시작일

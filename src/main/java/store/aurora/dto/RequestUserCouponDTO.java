@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 public class RequestUserCouponDTO {
-    @NotNull private List<String> userId;    // 유저 ID 리스트
+    @NotNull private List<String> userIds;    // 유저 ID 리스트
     @NotNull private Long couponPolicyId; // 정책 ID
     private CouponState state;   // 쿠폰 상태
     private LocalDate startDate; // 시작일
