@@ -25,6 +25,11 @@ public class UserCouponListController {
         return couponListService.getCouponList(userId);
     }
 
+    @GetMapping(value = "/used/list")
+    public List<UsedCouponDTO> usedCouponList(@RequestHeader(value = "X-USER-ID") String userId) {
+        return couponListService.getUsedCouponList(userId);
+    }
+
     //결제창에서 상품마다 사용가능 쿠폰 리스트 확인(매 상품마다 사용 가능한 쿠폰이 뜨게 해야 됨.
     @GetMapping(value = "/usable")
     public Map<Long, List<PaymentCouponDTO>>proCouponList(@RequestHeader(value = "X-USER-ID") String userId,
@@ -32,10 +37,5 @@ public class UserCouponListController {
         //orderId에 있는 카테고리, 북 ID을 불러와서 해당 사용자 쿠폰의 쿠폰정책과 비교해서 쓸 있는지 없는지 확인후 출력.
         //각 상품별로 NameWithDiscountDTO List 출력.
         return couponListService.getCouponListByCategory(productInfoDTO, userId);
-    }
-
-    @GetMapping(value = "/used/list")
-    public List<UsedCouponDTO> usedCouponList(@RequestHeader(value = "X-USER-ID") String userId) {
-        return couponListService.getUsedCouponList(userId);
     }
 }
