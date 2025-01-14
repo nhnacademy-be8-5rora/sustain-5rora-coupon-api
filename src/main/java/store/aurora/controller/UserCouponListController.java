@@ -36,7 +36,6 @@ public class UserCouponListController {
 
     @GetMapping(value = "/used/list")
     public List<UsedCouponDTO> usedCouponList(@RequestHeader(value = "X-USER-ID") String userId) {
-
         return couponListService.getUsedCouponList(userId);
     }
 }

@@ -74,4 +74,8 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
                                                     @Param("bookIds") List<Long> bookIds,
                                                     @Param("categoryIds") List<Long> categoryIds,
                                                     @Param("priceMap") Map<Long, Integer> priceMap);
+
+    @Query("SELECT u FROM UserCoupon u WHERE u.userId = :userId AND u.couponState = :couponState")
+    List<UserCoupon> findByUserIdAndState(@Param String userId,
+                                          @Param CouponState couponState);
 }

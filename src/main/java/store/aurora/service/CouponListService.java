@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import store.aurora.domain.CouponPolicy;
+import store.aurora.domain.CouponState;
 import store.aurora.dto.ProductInfoDTO;
 import store.aurora.domain.UserCoupon;
 import store.aurora.dto.UsedCouponDTO;
@@ -108,6 +109,14 @@ public class CouponListService {
 
     @Transactional(readOnly = true)
     public List<UsedCouponDTO> getUsedCouponList(String userId) {
-        return null;
+        List<UserCoupon> userCoupons = userCouponRepository.findByUserIdAndState(userId, CouponState.USED);
+
+        return userCoupons.stream()
+                .map(userCoupon -> new UsedCouponDTO(
+                        userCoupon.getPolicy().getName(),
+                        userCoupon.getUsedDate(),
+                        userCoupon.getEndDate(),
+                        userCoupon.getStartDate()))
+                .toList();
     }
 }
