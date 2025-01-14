@@ -91,7 +91,6 @@ public class AdminCouponService {
     //Welcome 쿠폰 확인
     @Transactional(readOnly = true)
     public boolean existWelcomeCoupon(String userId, Long policyId){
-
         return userCouponRepository.existsByUserIdAndPolicyId(userId, policyId);
     }
 

@@ -37,7 +37,7 @@ public class WelcomeCouponController {
         boolean success = adminCouponService.userCouponCreate(requestUserCouponDTO);
 
         if (success) {
-            return "회원가입 성공! Welcome 쿠폰 발급 요청이 처리되었습니다.";
+            return "Welcome 쿠폰 발급 요청이 처리되었습니다.";
         }
 
         return "Welcome 쿠폰 발급 요청이 실패되었습니다. 재발급 버튼을 눌러주세요.";
