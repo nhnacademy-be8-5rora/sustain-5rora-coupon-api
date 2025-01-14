@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import store.aurora.domain.CouponPolicy;
 import store.aurora.dto.ProductInfoDTO;
 import store.aurora.domain.UserCoupon;
+import store.aurora.dto.UsedCouponDTO;
 import store.aurora.dto.UserCouponDTO;
 import store.aurora.dto.PaymentCouponDTO;
 import store.aurora.mapper.UserCouponMapper;
@@ -103,5 +104,10 @@ public class CouponListService {
     @Transactional(readOnly = true)
     public List<CouponPolicy> couponPolicyList() {
         return couponPolicyRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<UsedCouponDTO> getUsedCouponList(String userId) {
+        return null;
     }
 }
