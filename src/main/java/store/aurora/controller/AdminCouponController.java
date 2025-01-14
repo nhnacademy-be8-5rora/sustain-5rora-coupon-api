@@ -17,7 +17,7 @@ public class AdminCouponController {
 
     // 쿠폰정책 생성 (관리자) -> 쿠폰 정책은 생성밖에 안됨(정책 수정, 삭제시 -> 이전에 해당 쿠폰을 가진 유저들이 피해를 볼 수 있음)
     //@Validated 유효 검증(무결성)
-    @PostMapping(value = "/create")
+    @PostMapping("/create")
     public ResponseEntity<String> couponPolicyCreate(@RequestBody RequestCouponPolicyDTO requestCouponPolicyDTO) {
 
         DiscountRuleDTO discountRuleDTO = requestCouponPolicyDTO.getDiscountRuleDTO();
@@ -48,8 +48,8 @@ public class AdminCouponController {
     }
 
     // 사용자쿠폰 수정 (관리자)
-    @PutMapping(value = "/update")
-    public ResponseEntity<String> userCouponUpdate(@RequestBody UpdateUserCouponDto updateUserCouponDto) {
+    @PostMapping("/update")
+    public ResponseEntity<String> couponUpdate(@RequestBody UpdateUserCouponDto updateUserCouponDto) {
 
         adminCouponService.couponUpdate(updateUserCouponDto);  // 실제 쿠폰 수정 처리
 
