@@ -15,10 +15,8 @@ public class WelcomeCouponController {
 
     private final AdminCouponService adminCouponService;
 
-    // 회원가입 API
-    @PostMapping("/welcome")
-    public String registerUser(@RequestHeader(value = "X-USER-ID") String userId) {
-
+    // 공통 로직을 처리하는 메소드
+    private String handleWelcomeCoupon(String userId) {
         // 사용자가 이미 Welcome 쿠폰을 보유하고 있는지 확인
         boolean alreadyHasCoupon = adminCouponService.existWelcomeCoupon(userId, 1L);
 
@@ -27,12 +25,12 @@ public class WelcomeCouponController {
         }
 
         LocalDate currentDate = LocalDate.now();
-        //WelcomeCoupon 생성(5만원 이상 구매시 1만 할인 쿠폰, 기간 30일)
+        // WelcomeCoupon 생성(5만원 이상 구매시 1만 할인 쿠폰, 기간 30일)
         RequestUserCouponDTO requestUserCouponDTO = new RequestUserCouponDTO();
         requestUserCouponDTO.setUserIds(List.of(userId));
-        requestUserCouponDTO.setCouponPolicyId(1L); //사용자 환영 쿠폰 정책
+        requestUserCouponDTO.setCouponPolicyId(1L); // 사용자 환영 쿠폰 정책
         requestUserCouponDTO.setStartDate(currentDate);
-        requestUserCouponDTO.setStartDate(currentDate.plusDays(30));
+        requestUserCouponDTO.setEndDate(currentDate.plusDays(30));
 
         boolean success = adminCouponService.userCouponCreate(requestUserCouponDTO);
 
@@ -41,5 +39,17 @@ public class WelcomeCouponController {
         }
 
         return "Welcome 쿠폰 발급 요청이 실패되었습니다. 재발급 버튼을 눌러주세요.";
+    }
+
+    // 회원가입 API
+    @PostMapping("/welcome")
+    public String registerUser(@RequestHeader(value = "X-USER-ID") String userId) {
+        return handleWelcomeCoupon(userId);
+    }
+
+    // 회원가입 시 Welcome 쿠폰 발급 요청
+    @PostMapping("/signup/welcome")
+    public String signUpWelcomeCoupon(@RequestParam String userId) {
+        return handleWelcomeCoupon(userId);
     }
 }
