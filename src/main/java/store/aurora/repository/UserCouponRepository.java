@@ -5,22 +5,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import store.aurora.domain.CouponPolicy;
 import store.aurora.domain.CouponState;
 import store.aurora.domain.UserCoupon;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
 
-    @Query("SELECT u FROM UserCoupon u WHERE u.userId = :userId")
     List<UserCoupon> findByUserId(@Param("userId") String userId);
 
-    //쿠폰 정책 리스트 출력
-    List<CouponPolicy> findCouponPolicyByCouponIdIn(List<Long> couponIds);
+    //사용자 쿠폰 ID 을 통해서 UserCoupon 검색
+    List<UserCoupon> findByCouponIdIn(List<Long> couponIds);
 
     //관리자가 특정 사용자 ID 리스트에 해당하는 UserCoupon들의 couponState/endDate/policyId 업데이트
     @Modifying
@@ -56,24 +53,6 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
 
     // userId, policyId, couponState에 맞는 데이터가 존재하는지 확인
     boolean existsByUserIdAndPolicyId(String userId, Long policyId);
-
-    @Query("SELECT cp " +
-            "FROM UserCoupon uc " +
-            "JOIN uc.policy cp " +
-            "LEFT JOIN cp.bookPolicies bp " +
-            "LEFT JOIN cp.categoryPolicies cpCat " +
-            "WHERE uc.userId = :userId " +
-            "AND uc.couponState = 'LIVE' " +
-            "AND ( " +
-            "  (bp.bookId IS NULL OR bp.bookId IN :bookIds) " +
-            "  OR " +
-            "  (cpCat.categoryId IS NULL OR cpCat.categoryId IN :categoryIds) " +
-            ") " +
-            "AND (cp.discountRule.needCost IS NULL OR cp.discountRule.needCost <= :priceMap)")
-    List<CouponPolicy> findAvailableCouponsForBatch(@Param("userId") String userId,
-                                                    @Param("bookIds") List<Long> bookIds,
-                                                    @Param("categoryIds") List<Long> categoryIds,
-                                                    @Param("priceMap") Map<Long, Integer> priceMap);
 
     @Query("SELECT u FROM UserCoupon u WHERE u.userId = :userId AND u.couponState = :couponState")
     List<UserCoupon> findByUserIdAndState(@Param String userId,

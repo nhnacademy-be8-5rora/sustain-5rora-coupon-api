@@ -14,10 +14,7 @@ import store.aurora.mapper.UserCouponMapper;
 import store.aurora.repository.CouponPolicyRepository;
 import store.aurora.repository.UserCouponRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -39,66 +36,61 @@ public class CouponListService {
 
     //결제창에서 각 상품별 사용 가능 쿠폰 목록
     @Transactional(readOnly = true)
-    public Map<Long, List<PaymentCouponDTO>> getCouponListByCategory(List<ProductInfoDTO> productInfoDTO, String userId) {
-        Map<Long, List<PaymentCouponDTO>> couponListMap = new HashMap<>();    //상품별 사용가능한 쿠폰 맵
+    public Map<Long, List<PaymentCouponDTO>> getCouponListByCategory(String id,
+                                                          List<ProductInfoDTO> productInfoDTO) {
+        HashMap<Long, List<PaymentCouponDTO>> productMap = new HashMap<>();
+        List<UserCoupon> userCoupons = userCouponRepository.findByUserId(id);
 
-        //상품에 대한 필수 값들만 추출하여 한번에 처리
-        List<Long> bookIds = new ArrayList<>();
-        List<Long> categoryIds = new ArrayList<>();
-        Map<Long, Integer> priceMap = new HashMap<>();
+        //productInfoDTO에서 나오는 bookId에 사용가능한 쿠폰 목록이 나오도록
 
-        //상품 목록에서 필요한 값만 모아서 저장
-        for (ProductInfoDTO product : productInfoDTO) {
-            bookIds.add(product.getBookId());
-            categoryIds.addAll(product.getCategoryIds());
-            priceMap.put(product.getProductId(), product.getPrice());
-        }
+        // 각 상품에 대해 사용 가능한 쿠폰 목록을 필터링하여 추가
+        for (ProductInfoDTO productInfo : productInfoDTO) {
+            List<PaymentCouponDTO> paymentCouponDTOS = new ArrayList<>();
+            Long bookId = productInfo.getBookId();
 
-        //한 번에 모든 쿠폰을 조회
-        List<CouponPolicy> couponList = getAvailableCouponList(bookIds, categoryIds, priceMap, userId);
+            // 상품에 대한 사용 가능한 쿠폰을 필터링
+            for (UserCoupon userCoupon : userCoupons) {
+                // UserCoupon에서 정책을 가져옵니다.
+                CouponPolicy couponPolicy = userCoupon.getPolicy();
 
-        //상품별로 필터링 후 쿠폰 리스트 생성
-        for (ProductInfoDTO product : productInfoDTO) {
-            Long productId = product.getProductId();
-            Integer totalPrice = product.getPrice();
-
-            //상품에 해당하는 쿠폰만 필터링
-            List<PaymentCouponDTO> resDiscountDTO = new ArrayList<>();
-            for (CouponPolicy couponPolicy : couponList) {
-                if (couponPolicyAppliesToProduct(couponPolicy, totalPrice)) {
-                    resDiscountDTO.add(new PaymentCouponDTO(
+                // 상품의 bookId와 쿠폰 정책을 비교하여 유효한 쿠폰을 찾습니다.
+                if (isCouponAvailableForProduct(couponPolicy, productInfo)) {
+                    // 쿠폰이 유효하다면, PaymentCouponDTO에 추가
+                    paymentCouponDTOS.add(new PaymentCouponDTO(
+                            userCoupon.getCouponId(),
                             couponPolicy.getName(),
                             couponPolicy.getDiscountRule().getNeedCost(),
                             couponPolicy.getDiscountRule().getMaxSale(),
-                            couponPolicy.getDiscountRule().getSalePercent(),
+                            couponPolicy.getDiscountRule().getSaleAmount(),
                             couponPolicy.getDiscountRule().getSaleAmount()
                     ));
                 }
             }
 
-            couponListMap.put(productId, resDiscountDTO);
+            productMap.put(bookId, paymentCouponDTOS);
         }
 
-        return couponListMap;
+        return productMap;
     }
 
-    //한 번에 모든 쿠폰을 가져오는 최적화된 메서드
-    public List<CouponPolicy> getAvailableCouponList(List<Long> bookIds, List<Long> categoryIds,
-                                                     Map<Long, Integer> priceMap, String userId) {
-        return userCouponRepository.findAvailableCouponsForBatch(userId, bookIds, categoryIds, priceMap);
-    }
+    private boolean isCouponAvailableForProduct(CouponPolicy couponPolicy, ProductInfoDTO productInfo) {
+        // 쿠폰 정책에서 bookId가 null이 아니면 bookId가 일치하는지 확인
+        if (couponPolicy.getBookPolicies() != null && !couponPolicy.getBookPolicies().isEmpty()) {
+            boolean matches = couponPolicy.getBookPolicies().stream()
+                    .anyMatch(bookPolicy -> bookPolicy.getBookId().equals(productInfo.getBookId()));
+            if (!matches) {
+                return false; // bookId가 일치하지 않으면 사용 불가
+            }
+        }
 
-    //쿠폰이 상품에 적용될 수 있는지 확인하는 로직 (필터링)
-    private boolean couponPolicyAppliesToProduct(CouponPolicy couponPolicy, Integer totalPrice) {
-        //상품에 대한 조건에 맞는지 확인 (예: bookId, categoryId, totalPrice 등)
-        boolean appliesToBook = couponPolicy.getBookPolicies().stream()
-                .anyMatch(bp -> bp.getBookId() == null);
-        boolean appliesToCategory = couponPolicy.getCategoryPolicies().stream()
-                .anyMatch(cpCat -> cpCat.getCategoryId() == null);
-        boolean appliesToPrice = couponPolicy.getDiscountRule().getNeedCost() == null ||
-                couponPolicy.getDiscountRule().getNeedCost() <= totalPrice;
+        // 쿠폰 정책에서 categoryId가 null이 아니면 categoryId가 일치하는지 확인
+        if (couponPolicy.getCategoryPolicies() != null && !couponPolicy.getCategoryPolicies().isEmpty()) {
+            return !Collections.disjoint(couponPolicy.getCategoryPolicies(), productInfo.getCategoryIds());  // 교집합이 없으면 사용 불가
+        }
 
-        return appliesToBook && appliesToCategory && appliesToPrice;
+        // 추가적인 쿠폰 유효성 검사 조건을 여기에 추가할 수 있습니다.
+
+        return true;  // 모든 조건을 통과하면 쿠폰 사용 가능
     }
 
     //쿠폰 정책 리스트 출력

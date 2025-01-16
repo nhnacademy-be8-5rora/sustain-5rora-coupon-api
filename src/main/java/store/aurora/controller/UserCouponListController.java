@@ -1,16 +1,12 @@
 package store.aurora.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import store.aurora.dto.PaymentCouponDTO;
-import store.aurora.dto.ProductInfoDTO;
 import store.aurora.dto.UsedCouponDTO;
 import store.aurora.dto.UserCouponDTO;
 import store.aurora.service.CouponListService;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/coupon")
@@ -28,14 +24,5 @@ public class UserCouponListController {
     @GetMapping(value = "/used/list")
     public List<UsedCouponDTO> usedCouponList(@RequestHeader(value = "X-USER-ID") String userId) {
         return couponListService.getUsedCouponList(userId);
-    }
-
-    //결제창에서 상품마다 사용가능 쿠폰 리스트 확인(매 상품마다 사용 가능한 쿠폰이 뜨게 해야 됨.
-    @GetMapping(value = "/usable")
-    public Map<Long, List<PaymentCouponDTO>>proCouponList(@RequestHeader(value = "X-USER-ID") String userId,
-                                                          @RequestBody @Validated List<ProductInfoDTO> productInfoDTO) {   //결제 API에서 필요한 값을 받아야함
-        //orderId에 있는 카테고리, 북 ID을 불러와서 해당 사용자 쿠폰의 쿠폰정책과 비교해서 쓸 있는지 없는지 확인후 출력.
-        //각 상품별로 NameWithDiscountDTO List 출력.
-        return couponListService.getCouponListByCategory(productInfoDTO, userId);
     }
 }
