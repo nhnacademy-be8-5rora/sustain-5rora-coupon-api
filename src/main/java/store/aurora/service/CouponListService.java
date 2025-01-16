@@ -38,7 +38,7 @@ public class CouponListService {
     @Transactional(readOnly = true)
     public Map<Long, List<PaymentCouponDTO>> getCouponListByCategory(String id,
                                                           List<ProductInfoDTO> productInfoDTO) {
-        HashMap<Long, List<PaymentCouponDTO>> productMap = new HashMap<>();
+        Map<Long, List<PaymentCouponDTO>> productMap = new HashMap<>();
         List<UserCoupon> userCoupons = userCouponRepository.findByUserId(id);
 
         //productInfoDTO에서 나오는 bookId에 사용가능한 쿠폰 목록이 나오도록
