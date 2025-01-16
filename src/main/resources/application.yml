@@ -9,16 +9,11 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 30s
 
-#    datasource:
-#      url: jdbc:mysql://133.186.241.167:3306/nhn_academy_21?useSSL=false&serverTimezone=UTC
-#      username: nhn_academy_21
-#      password: oMyVE2dkskrCXF
-#      driver-class-name: com.mysql.cj.jdbc.Driver
-  #  datasource:
-  #    url: jdbc:h2:mem:bookstore;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-  #    driver-class-name: org.h2.Driver
-  #    username: sa
-  #    password:
+  #    datasource:
+  #      url: jdbc:mysql://133.186.241.167:3306/nhn_academy_21?useSSL=false&serverTimezone=UTC
+  #      username: nhn_academy_21
+  #      password: oMyVE2dkskrCXF
+  #      driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     open-in-view: false

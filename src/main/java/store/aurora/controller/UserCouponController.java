@@ -10,7 +10,6 @@ import store.aurora.dto.ProductInfoDTO;
 import store.aurora.service.CouponListService;
 import store.aurora.service.CouponService;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
