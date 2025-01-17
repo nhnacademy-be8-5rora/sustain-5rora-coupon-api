@@ -42,7 +42,7 @@ public class UserCouponController {
     //사용가능한 쿠폰 정보 전달
     @PostMapping("/usable")
     Map<Long, List<PaymentCouponDTO>> getCouponListByCategory(@RequestParam @Valid String id,
-                                                                  @RequestBody @Validated List<ProductInfoDTO> productInfoDTO){
+                                                              @RequestBody @Validated List<ProductInfoDTO> productInfoDTO){
         //orderId에 있는 카테고리, 북 ID을 불러와서 해당 사용자 쿠폰의 쿠폰정책과 비교해서 쓸 있는지 없는지 확인후 출력.
         //각 상품별로 NameWithDiscountDTO List 출력.
         return couponListService.getCouponListByCategory(id, productInfoDTO);
