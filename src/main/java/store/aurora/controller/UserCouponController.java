@@ -22,7 +22,7 @@ public class UserCouponController {
     private final CouponListService couponListService;
 
     //사용자 쿠폰 환불시 해당 사용자 쿠폰 상태 변경 및 데이터베이스 동기화
-    @PutMapping(value = "/refund")
+    @PostMapping(value = "/refund")
     public ResponseEntity<String> userCouponRefund(@RequestBody @Valid List<Long> userCouponId) {
 
         couponService.refund(userCouponId);
@@ -31,7 +31,7 @@ public class UserCouponController {
     }
 
     //사용자 쿠폰 사용시 해당 사용자 쿠폰 상태 변경 및 데이터베이스 동기화
-    @PutMapping(value = "/using")
+    @PostMapping(value = "/using")
     public ResponseEntity<String> userCouponUsing(@RequestBody @Valid Long userCouponId){
 
         couponService.used(userCouponId);
@@ -40,7 +40,7 @@ public class UserCouponController {
     }
 
     //사용가능한 쿠폰 정보 전달
-    @GetMapping("/usable")
+    @PostMapping("/usable")
     Map<Long, List<PaymentCouponDTO>> getCouponListByCategory(@RequestParam @Valid String id,
                                                                   @RequestBody @Validated List<ProductInfoDTO> productInfoDTO){
         //orderId에 있는 카테고리, 북 ID을 불러와서 해당 사용자 쿠폰의 쿠폰정책과 비교해서 쓸 있는지 없는지 확인후 출력.
