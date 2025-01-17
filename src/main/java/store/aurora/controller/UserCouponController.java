@@ -32,7 +32,7 @@ public class UserCouponController {
 
     //사용자 쿠폰 사용시 해당 사용자 쿠폰 상태 변경 및 데이터베이스 동기화
     @PutMapping(value = "/using")
-    public ResponseEntity<String> userCouponUsing(@RequestBody @Valid List<Long> userCouponId){
+    public ResponseEntity<String> userCouponUsing(@RequestBody @Valid Long userCouponId){
 
         couponService.used(userCouponId);
 

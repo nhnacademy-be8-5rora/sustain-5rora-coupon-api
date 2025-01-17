@@ -40,8 +40,9 @@ public class CouponService {
 
     //사용자 쿠폰 사용
     @Transactional
-    public void used(List<Long> userCouponId) {
-        List<UserCoupon> userCoupons = userCouponRepository.findByCouponIdIn(userCouponId);
+    public void used(Long userCouponId) {
+        List<UserCoupon> userCoupons = userCouponRepository.liveToUsedByUserCouponId(userCouponId, CouponState.USED);
+
         if (userCoupons.isEmpty()) {
             throw new IllegalArgumentException("No coupons found for the provided IDs.");
         }
