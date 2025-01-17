@@ -59,7 +59,9 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
                                           @Param CouponState couponState);
 
     @Modifying
-    @Query("UPDATE UserCoupon u SET u.couponState = :couponState WHERE u.couponId = :userCouponId")
+    @Query("UPDATE UserCoupon u SET u.couponState = :couponState," +
+            " u.usedDate = :now WHERE u.couponId = :userCouponId")
     void liveToUsedByUserCouponId(@Param Long userCouponId,
-                                  @Param CouponState couponState);
+                                  @Param CouponState couponState,
+                                  @Param LocalDate now);
 }

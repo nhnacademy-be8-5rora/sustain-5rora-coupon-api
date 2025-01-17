@@ -8,6 +8,7 @@ import store.aurora.domain.UserCoupon;
 import store.aurora.repository.UserCouponRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,6 +42,8 @@ public class CouponService {
     //사용자 쿠폰 사용
     @Transactional
     public void used(Long userCouponId) {
-        userCouponRepository.liveToUsedByUserCouponId(userCouponId, CouponState.USED);
+        LocalDate now = LocalDate.now();
+
+        userCouponRepository.liveToUsedByUserCouponId(userCouponId, CouponState.USED, now);
     }
 }
