@@ -2,6 +2,7 @@ package store.aurora.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import store.aurora.domain.CouponState;
 import store.aurora.dto.RequestUserCouponDTO;
 import store.aurora.service.AdminCouponService;
 
@@ -31,6 +32,7 @@ public class WelcomeCouponController {
         requestUserCouponDTO.setCouponPolicyId(1L); // 사용자 환영 쿠폰 정책
         requestUserCouponDTO.setStartDate(currentDate);
         requestUserCouponDTO.setEndDate(currentDate.plusDays(30));
+        requestUserCouponDTO.setState(CouponState.LIVE);
 
         boolean success = adminCouponService.userCouponCreate(requestUserCouponDTO);
 
