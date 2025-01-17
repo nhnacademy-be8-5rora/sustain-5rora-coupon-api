@@ -41,21 +41,6 @@ public class CouponService {
     //사용자 쿠폰 사용
     @Transactional
     public void used(Long userCouponId) {
-        List<UserCoupon> userCoupons = userCouponRepository.liveToUsedByUserCouponId(userCouponId, CouponState.USED);
-
-        if (userCoupons.isEmpty()) {
-            throw new IllegalArgumentException("No coupons found for the provided IDs.");
-        }
-
-        for (UserCoupon userCoupon : userCoupons) {
-            if (userCoupon.getCouponState() != CouponState.LIVE) {
-                throw new IllegalStateException("Cannot use a dead coupon: ID = " + userCoupon.getCouponState());
-            }
-
-            userCoupon.setCouponState(CouponState.USED);    //Live -> used 변경
-            userCoupon.setUsedDate(LocalDate.now());
-        }
-
-        userCouponRepository.saveAll(userCoupons); // 상태 변경 후 저장
+        userCouponRepository.liveToUsedByUserCouponId(userCouponId, CouponState.USED);
     }
 }
