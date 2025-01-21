@@ -1,4 +1,4 @@
-package store.aurora;
+package store.aurora.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import store.aurora.controller.UserCouponController;
 import store.aurora.dto.PaymentCouponDTO;
 import store.aurora.dto.ProductInfoDTO;
 import store.aurora.service.CouponListService;
