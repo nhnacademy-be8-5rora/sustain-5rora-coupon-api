@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import store.aurora.domain.DiscountRule;
 
 @Repository
-public interface DisCountRuleRepository extends JpaRepository<DiscountRule, Long> {
+public interface DiscountRuleRepository extends JpaRepository<DiscountRule, Long> {
 
 }

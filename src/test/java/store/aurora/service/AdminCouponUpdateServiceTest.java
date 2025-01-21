@@ -17,7 +17,7 @@ class AdminCouponUpdateServiceTest {
 
     @Mock private CouponPolicyRepository couponPolicyRepository;
     @Mock private UserCouponRepository userCouponRepository;
-    @Mock private DisCountRuleRepository disCountRuleRepository;
+    @Mock private DiscountRuleRepository disCountRuleRepository;
     @Mock private CategoryPolicyRepository categoryPolicyRepository;
     @Mock private BookPolicyRepository bookPolicyRepository;
 
