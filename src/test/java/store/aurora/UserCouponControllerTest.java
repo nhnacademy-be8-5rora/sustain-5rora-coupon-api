@@ -80,10 +80,10 @@ class UserCouponControllerTest {
     void testGetCouponListByCategory() throws Exception {
         // Given
         String userId = "user1";
-        ProductInfoDTO productInfoDTO = new ProductInfoDTO(1L, List.of(1L, 2L),10000);
+        ProductInfoDTO productInfoDTO = new ProductInfoDTO(1L, List.of(1L, 2L), 10000);
         List<ProductInfoDTO> productInfoDTOList = List.of(productInfoDTO);
 
-        PaymentCouponDTO paymentCouponDTO = new PaymentCouponDTO(1L, "Coupon 1", 10);
+        PaymentCouponDTO paymentCouponDTO = new PaymentCouponDTO(1L, "Coupon 1", null, null, null, 10);
         Map<Long, List<PaymentCouponDTO>> responseMap = Map.of(
                 1L, List.of(paymentCouponDTO)
         );
@@ -95,11 +95,11 @@ class UserCouponControllerTest {
         mockMvc.perform(post("/api/coupon/shop/usable")
                         .param("userId", userId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("[{\"productId\":\"product1\", \"price\":100}]"))
+                        .content("[{\"bookId\":1, \"categoryIds\":[1, 2], \"price\":10000}]"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[1][0].Id").value(1))
-                .andExpect(jsonPath("$.[1][0].couponName").value("Coupon 1"))
-                .andExpect(jsonPath("$.[1][0].saleAmount").value(10));
+                .andExpect(jsonPath("$.['1'][0].id").value(1))
+                .andExpect(jsonPath("$.['1'][0].couponName").value("Coupon 1"))
+                .andExpect(jsonPath("$.['1'][0].salePercent").value(10));
 
         // couponListService.getCouponListByCategory 메소드가 호출되는지 확인
         verify(couponListService, times(1)).getCouponListByCategory(userId, productInfoDTOList);
