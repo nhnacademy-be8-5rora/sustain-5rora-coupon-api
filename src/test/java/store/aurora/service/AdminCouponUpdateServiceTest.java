@@ -13,7 +13,7 @@ import store.aurora.domain.CouponState;
 import store.aurora.dto.UpdateUserCouponDto;
 import store.aurora.repository.*;
 
-class AdminCouponServiceTest {
+class AdminCouponUpdateServiceTest {
 
     @Mock private CouponPolicyRepository couponPolicyRepository;
     @Mock private UserCouponRepository userCouponRepository;
