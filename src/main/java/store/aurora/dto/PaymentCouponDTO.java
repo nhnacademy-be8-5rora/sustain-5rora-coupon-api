@@ -1,8 +1,10 @@
 package store.aurora.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class PaymentCouponDTO {
     private Long id;        //사용자 쿠폰 ID
     private String couponName;  //쿠폰명
@@ -19,12 +21,5 @@ public class PaymentCouponDTO {
         this.maxSale = maxSale;
         this.saleAmount = saleAmount;
         this.salePercent = salePercent;
-    }
-
-
-    public PaymentCouponDTO(long id, String discountA, int needCost) {
-        this.id = id;
-        this.couponName = discountA;
-        this.needCost = needCost;
     }
 }

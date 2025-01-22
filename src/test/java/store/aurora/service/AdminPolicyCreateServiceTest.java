@@ -110,6 +110,8 @@ class AdminPolicyCreateServiceTest {
         AddPolicyDTO addPolicyDTO = new AddPolicyDTO();
         addPolicyDTO.setCategoryId(List.of(1L, 2L));
 
+
+
         // Act
         adminCouponService.saveCategoryPolicies(couponPolicy, addPolicyDTO);
 

@@ -1,8 +1,10 @@
 package store.aurora.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class DiscountRuleDTO {
     private Integer needCost;
     private Integer maxSale;
