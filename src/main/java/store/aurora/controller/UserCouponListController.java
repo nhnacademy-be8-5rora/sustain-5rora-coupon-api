@@ -2,7 +2,7 @@ package store.aurora.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import store.aurora.dto.UsedCouponDTO;
+import store.aurora.dto.response.UsedCouponDTO;
 import store.aurora.dto.UserCouponDTO;
 import store.aurora.service.CouponListService;
 

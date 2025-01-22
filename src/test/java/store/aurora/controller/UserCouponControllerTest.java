@@ -8,7 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import store.aurora.dto.PaymentCouponDTO;
+import store.aurora.dto.response.PaymentCouponDTO;
 import store.aurora.service.CouponListService;
 import store.aurora.service.CouponService;
 

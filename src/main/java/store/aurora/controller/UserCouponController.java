@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import store.aurora.dto.PaymentCouponDTO;
+import store.aurora.dto.response.PaymentCouponDTO;
 import store.aurora.dto.ProductInfoDTO;
 import store.aurora.service.CouponListService;
 import store.aurora.service.CouponService;
