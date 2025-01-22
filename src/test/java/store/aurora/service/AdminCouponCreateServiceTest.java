@@ -1,15 +1,9 @@
 package store.aurora.service;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import store.aurora.domain.CouponPolicy;
@@ -19,6 +13,14 @@ import store.aurora.domain.SaleType;
 import store.aurora.dto.RequestUserCouponDTO;
 import store.aurora.repository.CouponPolicyRepository;
 import store.aurora.repository.UserCouponRepository;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class AdminCouponCreateServiceTest {

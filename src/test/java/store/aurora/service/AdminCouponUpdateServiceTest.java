@@ -1,17 +1,18 @@
 package store.aurora.service;
 
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import store.aurora.domain.CouponState;
+import store.aurora.dto.UpdateUserCouponDto;
+import store.aurora.repository.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.*;
-import store.aurora.domain.CouponState;
-import store.aurora.dto.UpdateUserCouponDto;
-import store.aurora.repository.*;
+import static org.mockito.Mockito.*;
 
 class AdminCouponUpdateServiceTest {
 

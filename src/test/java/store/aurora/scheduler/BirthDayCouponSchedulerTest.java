@@ -1,15 +1,16 @@
 package store.aurora.scheduler;
 
-import static org.mockito.Mockito.*;
-
-import java.time.LocalDate;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import store.aurora.scheduler.service.BirthDayCouponService;
+
+import java.time.LocalDate;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 class BirthDayCouponSchedulerTest {
