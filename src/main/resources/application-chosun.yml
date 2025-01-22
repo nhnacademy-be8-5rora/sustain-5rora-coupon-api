@@ -1,0 +1,25 @@
+server:
+  port: 10154
+  shutdown: graceful
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+  data:
+    redis:
+      host: na
+      port: 0      #각자 쓰고있는 포트에 따라 변경
+      database: 1
+      username:
+      password: na
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB      # 파일 크기 제한
+      max-request-size: 10MB
+
+api:
+  gateway:
+    base-url: localhost:10151
