@@ -32,10 +32,6 @@ public class ApplicationStatusController {
     private final ApplicationInfoManager applicationInfoManager;
     private final ApplicationStatus applicationStatus;
 
-    public ApplicationStatusController(ApplicationInfoManager applicationInfoManager, ApplicationStatus applicationStatus) {
-        this.applicationInfoManager = applicationInfoManager;
-        this.applicationStatus = applicationStatus;
-    }
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.OK)
@@ -44,4 +40,8 @@ public class ApplicationStatusController {
         applicationStatus.stopService();
     }
 
+    public ApplicationStatusController(ApplicationInfoManager applicationInfoManager, ApplicationStatus applicationStatus) {
+        this.applicationInfoManager = applicationInfoManager;
+        this.applicationStatus = applicationStatus;
+    }
 }

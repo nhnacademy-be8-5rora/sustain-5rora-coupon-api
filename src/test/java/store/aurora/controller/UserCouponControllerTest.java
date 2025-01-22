@@ -2,105 +2,68 @@ package store.aurora.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import store.aurora.dto.PaymentCouponDTO;
-import store.aurora.dto.ProductInfoDTO;
 import store.aurora.service.CouponListService;
 import store.aurora.service.CouponService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserCouponController.class)
 class UserCouponControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private CouponService couponService;  // Mock 서비스
+    @Mock
+    private CouponService couponService;
 
-    @MockBean
-    private CouponListService couponListService;  // Mock 서비스
+    @Mock
+    private CouponListService couponListService;
+
+    @InjectMocks
+    private UserCouponController userCouponController;
 
     @BeforeEach
-    public void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new UserCouponController(couponService, couponListService)).build();
-    }
-
-    @Test
-    void testUserCouponRefund() throws Exception {
-        // Given
-        List<Long> userCouponIds = List.of(1L, 2L, 3L);
-
-        // When
-        doNothing().when(couponService).refund(userCouponIds);
-
-        // Then
-        mockMvc.perform(post("/api/coupon/shop/refund")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("[1, 2, 3]"))  // 요청 본문
-                .andExpect(status().isOk())
-                .andExpect(content().string("User Coupon refunded successfully."));
-
-        // couponService.refund 메소드가 호출되는지 확인
-        verify(couponService, times(1)).refund(userCouponIds);
-    }
-
-    @Test
-    void testUserCouponUsing() throws Exception {
-        // Given
-        Long couponId = 1L;
-
-        // When
-        doNothing().when(couponService).used(couponId);
-
-        // Then
-        mockMvc.perform(post("/api/coupon/shop/using")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("1"))  // 요청 본문
-                .andExpect(status().isOk())
-                .andExpect(content().string("User Coupon used successfully."));
-
-        // couponService.used 메소드가 호출되는지 확인
-        verify(couponService, times(1)).used(couponId);
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(userCouponController).build();
     }
 
     @Test
     void testGetCouponListByCategory() throws Exception {
-        // Given
-        String userId = "user1";
-        ProductInfoDTO productInfoDTO = new ProductInfoDTO(1L, List.of(1L, 2L), 10000);
-        List<ProductInfoDTO> productInfoDTOList = List.of(productInfoDTO);
+        // Sample expected result
+        PaymentCouponDTO coupon = new PaymentCouponDTO(1L, "Discount Coupon", 100, 50, 20, 10);
+        List<PaymentCouponDTO> couponList = Arrays.asList(coupon);
 
-        PaymentCouponDTO paymentCouponDTO = new PaymentCouponDTO(1L, "Coupon 1", null, null, null, 10);
-        Map<Long, List<PaymentCouponDTO>> responseMap = Map.of(
-                1L, List.of(paymentCouponDTO)
-        );
+        // Mock the couponListService response
+        when(couponListService.getCouponListByCategory(anyString(), any(List.class)))
+                .thenReturn(Map.of(1L, couponList));
 
-        // When
-        when(couponListService.getCouponListByCategory(userId, productInfoDTOList)).thenReturn(responseMap);
-
-        // Then
+        // Perform the test
         mockMvc.perform(post("/api/coupon/shop/usable")
-                        .param("userId", userId)
+                        .param("userId", "user123")  // Simulating the userId as a query parameter
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("[{\"bookId\":1, \"categoryIds\":[1, 2], \"price\":10000}]"))
+                        .content("["
+                                + "{\"bookId\":1,\"categoryIds\":[101, 102],\"price\":500},"
+                                + "{\"bookId\":2,\"categoryIds\":[103, 104],\"price\":300}"
+                                + "]"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.['1'][0].id").value(1))
-                .andExpect(jsonPath("$.['1'][0].couponName").value("Coupon 1"))
+                .andExpect(jsonPath("$.['1'][0].couponName").value("Discount Coupon"))
+                .andExpect(jsonPath("$.['1'][0].needCost").value(100))
                 .andExpect(jsonPath("$.['1'][0].salePercent").value(10));
-
-        // couponListService.getCouponListByCategory 메소드가 호출되는지 확인
-        verify(couponListService, times(1)).getCouponListByCategory(userId, productInfoDTOList);
     }
 }

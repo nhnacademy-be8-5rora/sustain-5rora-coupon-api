@@ -1,13 +1,15 @@
 package store.aurora.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "coupon_policy")
-@Data
+@Getter
+@Setter
 public class CouponPolicy {
 
     @Id

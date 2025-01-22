@@ -1,13 +1,15 @@
 package store.aurora.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "user_coupon")
-@Data
+@Getter
+@Setter
 public class UserCoupon {
 
     @Id

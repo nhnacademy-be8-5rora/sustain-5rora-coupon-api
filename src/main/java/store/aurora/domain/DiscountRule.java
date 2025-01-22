@@ -1,11 +1,13 @@
 package store.aurora.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "discount_rule")
-@Data
+@Getter
+@Setter
 public class DiscountRule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

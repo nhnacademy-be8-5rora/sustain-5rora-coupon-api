@@ -1,12 +1,14 @@
 package store.aurora.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
 @Table(name = "category_policy")
-@Data
+@Getter
+@Setter
 public class CategoryPolicy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
