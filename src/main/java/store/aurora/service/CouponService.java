@@ -16,6 +16,15 @@ public class CouponService {
 
     private final UserCouponRepository userCouponRepository;
 
+    //사용자 쿠폰 사용
+    @Transactional
+    public void used(Long userCouponId) {
+        LocalDate now = LocalDate.now();
+
+        //사용된 쿠폰의 ID, 쿠폰의 상태, 현재 시간
+        userCouponRepository.liveToUsedByUserCouponId(userCouponId, CouponState.USED, now);
+    }
+
     //사용자 쿠폰 환불
     @Transactional
     public void refund(List<Long> userCouponId) {
@@ -35,14 +44,5 @@ public class CouponService {
         }
 
         userCouponRepository.saveAll(userCoupons); // 상태 변경 후 저장
-
-    }
-
-    //사용자 쿠폰 사용
-    @Transactional
-    public void used(Long userCouponId) {
-        LocalDate now = LocalDate.now();
-
-        userCouponRepository.liveToUsedByUserCouponId(userCouponId, CouponState.USED, now);
     }
 }
