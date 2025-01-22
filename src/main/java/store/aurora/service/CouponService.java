@@ -8,7 +8,6 @@ import store.aurora.domain.UserCoupon;
 import store.aurora.repository.UserCouponRepository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service

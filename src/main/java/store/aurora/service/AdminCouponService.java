@@ -23,7 +23,7 @@ public class AdminCouponService {
 
     private final CouponPolicyRepository couponPolicyRepository;
     private final UserCouponRepository userCouponRepository;
-    private final DisCountRuleRepository disCountRuleRepository;
+    private final DiscountRuleRepository disCountRuleRepository;
     private  final CategoryPolicyRepository categoryPolicyRepository;
     private  final BookPolicyRepository bookPolicyRepository;
 
@@ -132,7 +132,7 @@ public class AdminCouponService {
     }
 
     //카테고리 정책 테이블 개체 생성(addPolicy -> categoryId, bookId list null 구분으로 테이블 생성)
-    private void saveCategoryPolicies(CouponPolicy couponPolicy, AddPolicyDTO addPolicyDto) {
+    void saveCategoryPolicies(CouponPolicy couponPolicy, AddPolicyDTO addPolicyDto) {
         if (addPolicyDto.getCategoryId() != null) {
             List<CategoryPolicy> categoryPolicies = addPolicyDto.getCategoryId().stream()
                     .map(categoryId -> {
@@ -147,7 +147,7 @@ public class AdminCouponService {
     }
 
     //북 정책 테이블 생성
-    private void saveBookPolicies(CouponPolicy couponPolicy, AddPolicyDTO addPolicyDto) {
+    void saveBookPolicies(CouponPolicy couponPolicy, AddPolicyDTO addPolicyDto) {
         if (addPolicyDto.getBookId() != null) {
             List<BookPolicy> bookPolicies = addPolicyDto.getBookId().stream()
                     .map(bookId -> {

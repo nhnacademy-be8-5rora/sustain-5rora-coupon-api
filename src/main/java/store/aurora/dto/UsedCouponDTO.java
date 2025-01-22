@@ -11,7 +11,7 @@ public class UsedCouponDTO {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public UsedCouponDTO(String name, LocalDate usedDate, LocalDate endDate, LocalDate startDate) {
+    public UsedCouponDTO(String name, LocalDate usedDate, LocalDate startDate, LocalDate endDate) {
         this.couponName = name;
         this.usedDate = usedDate;
         this.startDate = startDate;
