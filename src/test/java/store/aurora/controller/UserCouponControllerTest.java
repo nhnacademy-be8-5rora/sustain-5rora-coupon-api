@@ -12,7 +12,6 @@ import store.aurora.dto.PaymentCouponDTO;
 import store.aurora.service.CouponListService;
 import store.aurora.service.CouponService;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +45,7 @@ class UserCouponControllerTest {
     void testGetCouponListByCategory() throws Exception {
         // Sample expected result
         PaymentCouponDTO coupon = new PaymentCouponDTO(1L, "Discount Coupon", 100, 50, 20, 10);
-        List<PaymentCouponDTO> couponList = Arrays.asList(coupon);
+        List<PaymentCouponDTO> couponList = List.of(coupon);
 
         // Mock the couponListService response
         when(couponListService.getCouponListByCategory(anyString(), any(List.class)))
