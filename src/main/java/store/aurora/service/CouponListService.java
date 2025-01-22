@@ -11,7 +11,6 @@ import store.aurora.dto.response.UsedCouponDTO;
 import store.aurora.dto.UserCouponDTO;
 import store.aurora.dto.response.PaymentCouponDTO;
 import store.aurora.mapper.UserCouponMapper;
-import store.aurora.repository.CouponPolicyRepository;
 import store.aurora.repository.UserCouponRepository;
 
 import java.util.*;
@@ -21,7 +20,8 @@ import java.util.*;
 public class CouponListService {
 
     private final UserCouponRepository userCouponRepository;
-    private final CouponPolicyRepository couponPolicyRepository;
+    private final UserCouponMapper userCouponMapper;
+
 
     //사용자ID로 해당 사용자가 가진 사용자 쿠폰 목록 검색
     @Transactional(readOnly = true)
@@ -30,7 +30,7 @@ public class CouponListService {
 
         // List<UserCoupon>을 List<UserCouponDTO>로 변환
         return userCoupons.stream()
-                .map(UserCouponMapper::toDTO) // toDTO 메서드를 사용하여 변환
+                .map(userCouponMapper::toDTO) // toDTO 메서드를 사용하여 변환
                 .toList();
     }
 
@@ -91,12 +91,6 @@ public class CouponListService {
         // 추가적인 쿠폰 유효성 검사 조건을 여기에 추가할 수 있습니다.
 
         return true;  // 모든 조건을 통과하면 쿠폰 사용 가능
-    }
-
-    //쿠폰 정책 리스트 출력
-    @Transactional(readOnly = true)
-    public List<CouponPolicy> couponPolicyList() {
-        return couponPolicyRepository.findAll();
     }
 
     @Transactional(readOnly = true)

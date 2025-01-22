@@ -1,71 +1,67 @@
 package store.aurora.mapper;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import store.aurora.domain.*;
 import store.aurora.dto.UserCouponDTO;
-
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class UserCouponMapperTest {
 
+    private UserCouponMapper userCouponMapper;
+
+    @BeforeEach
+    void setUp() {
+        userCouponMapper = new UserCouponMapper();
+    }
+
     @Test
     void testToDTO() {
-        // Given: 테스트에 필요한 객체 생성 및 설정
-        DiscountRule discountRule = new DiscountRule();
-        discountRule.setNeedCost(10000);
-        discountRule.setMaxSale(5000);
-        discountRule.setSalePercent(10);
-        discountRule.setSaleAmount(1000);
+        // Arrange
+        DiscountRule discountRule = mock(DiscountRule.class);
+        when(discountRule.getNeedCost()).thenReturn(5000);
+        when(discountRule.getMaxSale()).thenReturn(1000);
+        when(discountRule.getSalePercent()).thenReturn(10);
+        when(discountRule.getSaleAmount()).thenReturn(500);
 
-        CouponPolicy policy = new CouponPolicy();
-        policy.setName("Spring Sale");
-        policy.setDiscountRule(discountRule);
-        policy.setBookPolicies(List.of(
-                createBookPolicy(policy, 101L),
-                createBookPolicy(policy, 102L)
-        ));
-        policy.setCategoryPolicies(List.of(
-                createCategoryPolicy(policy, 201L),
-                createCategoryPolicy(policy, 202L)
-        ));
+        BookPolicy bookPolicy1 = mock(BookPolicy.class);
+        when(bookPolicy1.getBookId()).thenReturn(1L);
+        BookPolicy bookPolicy2 = mock(BookPolicy.class);
+        when(bookPolicy2.getBookId()).thenReturn(2L);
 
-        UserCoupon userCoupon = new UserCoupon();
-        userCoupon.setPolicy(policy);
-        userCoupon.setStartDate(LocalDate.of(2025, 1, 1));
-        userCoupon.setEndDate(LocalDate.of(2025, 12, 31));
-        userCoupon.setCouponId(1L);
+        CategoryPolicy categoryPolicy1 = mock(CategoryPolicy.class);
+        when(categoryPolicy1.getCategoryId()).thenReturn(100L);
+        CategoryPolicy categoryPolicy2 = mock(CategoryPolicy.class);
+        when(categoryPolicy2.getCategoryId()).thenReturn(200L);
 
-        // When: Mapper를 호출하여 DTO 생성
-        UserCouponDTO dto = UserCouponMapper.toDTO(userCoupon);
+        CouponPolicy policy = mock(CouponPolicy.class);
+        when(policy.getName()).thenReturn("Sample Coupon");
+        when(policy.getDiscountRule()).thenReturn(discountRule);
+        when(policy.getBookPolicies()).thenReturn(List.of(bookPolicy1, bookPolicy2));
+        when(policy.getCategoryPolicies()).thenReturn(List.of(categoryPolicy1, categoryPolicy2));
 
-        // Then: DTO의 필드 값이 예상과 일치하는지 확인
-        assertEquals("Spring Sale", dto.getCouponName());
-        assertEquals(10000, dto.getNeedCost());
-        assertEquals(5000, dto.getMaxSale());
-        assertEquals(10, dto.getSalePercent());
-        assertEquals(1000, dto.getSaleAmount());
+        UserCoupon userCoupon = mock(UserCoupon.class);
+        when(userCoupon.getPolicy()).thenReturn(policy);
+        when(userCoupon.getStartDate()).thenReturn(LocalDate.of(2025, 1, 1));
+        when(userCoupon.getEndDate()).thenReturn(LocalDate.of(2025, 12, 31));
+
+        // Act
+        UserCouponDTO dto = userCouponMapper.toDTO(userCoupon);
+
+        // Assert
+        assertNotNull(dto);
+        assertEquals("Sample Coupon", dto.getCouponName());
         assertEquals(LocalDate.of(2025, 1, 1), dto.getStartDate());
         assertEquals(LocalDate.of(2025, 12, 31), dto.getEndDate());
-        assertEquals(List.of(101L, 102L), dto.getBookIdList());
-        assertEquals(List.of(201L, 202L), dto.getCategoryIdList());
-    }
-
-    // Helper 메서드: BookPolicy 생성
-    private BookPolicy createBookPolicy(CouponPolicy policy, Long bookId) {
-        BookPolicy bookPolicy = new BookPolicy();
-        bookPolicy.setPolicy(policy);
-        bookPolicy.setBookId(bookId);
-        return bookPolicy;
-    }
-
-    // Helper 메서드: CategoryPolicy 생성
-    private CategoryPolicy createCategoryPolicy(CouponPolicy policy, Long categoryId) {
-        CategoryPolicy categoryPolicy = new CategoryPolicy();
-        categoryPolicy.setPolicy(policy);
-        categoryPolicy.setCategoryId(categoryId);
-        return categoryPolicy;
+        assertEquals(5000, dto.getNeedCost());
+        assertEquals(1000, dto.getMaxSale());
+        assertEquals(10, dto.getSalePercent());
+        assertEquals(500, dto.getSaleAmount());
+        assertEquals(List.of(1L, 2L), dto.getBookIdList());
+        assertEquals(List.of(100L, 200L), dto.getCategoryIdList());
     }
 }
