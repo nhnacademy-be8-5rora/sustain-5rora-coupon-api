@@ -1,4 +1,4 @@
-package store.aurora.service;
+package store.aurora.service.admin;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +13,7 @@ import store.aurora.repository.BookPolicyRepository;
 import store.aurora.repository.CategoryPolicyRepository;
 import store.aurora.repository.CouponPolicyRepository;
 import store.aurora.repository.DiscountRuleRepository;
+import store.aurora.service.AdminCouponService;
 
 import java.util.List;
 import java.util.stream.StreamSupport;

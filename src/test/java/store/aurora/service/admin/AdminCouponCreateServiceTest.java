@@ -1,4 +1,4 @@
-package store.aurora.service;
+package store.aurora.service.admin;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ import store.aurora.domain.SaleType;
 import store.aurora.dto.RequestUserCouponDTO;
 import store.aurora.repository.CouponPolicyRepository;
 import store.aurora.repository.UserCouponRepository;
+import store.aurora.service.AdminCouponService;
 
 import java.time.LocalDate;
 import java.util.List;

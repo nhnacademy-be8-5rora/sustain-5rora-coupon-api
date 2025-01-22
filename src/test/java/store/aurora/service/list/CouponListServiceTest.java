@@ -1,4 +1,4 @@
-package store.aurora.service;
+package store.aurora.service.list;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +11,7 @@ import store.aurora.domain.UserCoupon;
 import store.aurora.dto.UserCouponDTO;
 import store.aurora.mapper.UserCouponMapper;
 import store.aurora.repository.UserCouponRepository;
+import store.aurora.service.CouponListService;
 
 import java.time.LocalDate;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package store.aurora.service;
+package store.aurora.service.admin;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,6 +7,7 @@ import org.mockito.MockitoAnnotations;
 import store.aurora.domain.CouponState;
 import store.aurora.dto.UpdateUserCouponDto;
 import store.aurora.repository.*;
+import store.aurora.service.AdminCouponService;
 
 import java.time.LocalDate;
 import java.util.Arrays;

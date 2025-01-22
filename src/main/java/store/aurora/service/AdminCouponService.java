@@ -132,7 +132,7 @@ public class AdminCouponService {
     }
 
     //카테고리 정책 테이블 개체 생성(addPolicy -> categoryId, bookId list null 구분으로 테이블 생성)
-    void saveCategoryPolicies(CouponPolicy couponPolicy, AddPolicyDTO addPolicyDto) {
+    public void saveCategoryPolicies(CouponPolicy couponPolicy, AddPolicyDTO addPolicyDto) {
         if (addPolicyDto.getCategoryId() != null) {
             List<CategoryPolicy> categoryPolicies = addPolicyDto.getCategoryId().stream()
                     .map(categoryId -> {
@@ -147,7 +147,7 @@ public class AdminCouponService {
     }
 
     //북 정책 테이블 생성
-    void saveBookPolicies(CouponPolicy couponPolicy, AddPolicyDTO addPolicyDto) {
+    public void saveBookPolicies(CouponPolicy couponPolicy, AddPolicyDTO addPolicyDto) {
         if (addPolicyDto.getBookId() != null) {
             List<BookPolicy> bookPolicies = addPolicyDto.getBookId().stream()
                     .map(bookId -> {

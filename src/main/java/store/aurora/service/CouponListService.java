@@ -22,18 +22,6 @@ public class CouponListService {
     private final UserCouponRepository userCouponRepository;
     private final UserCouponMapper userCouponMapper;
 
-
-    //사용자ID로 해당 사용자가 가진 사용자 쿠폰 목록 검색
-    @Transactional(readOnly = true)
-    public List<UserCouponDTO> getCouponList(String userId) {
-        List<UserCoupon> userCoupons =userCouponRepository.findByUserId(userId);
-
-        // List<UserCoupon>을 List<UserCouponDTO>로 변환
-        return userCoupons.stream()
-                .map(userCouponMapper::toDTO) // toDTO 메서드를 사용하여 변환
-                .toList();
-    }
-
     //결제창에서 각 상품별 사용 가능 쿠폰 목록
     @Transactional(readOnly = true)
     public Map<Long, List<PaymentCouponDTO>> getCouponListByCategory(String id,
@@ -73,7 +61,7 @@ public class CouponListService {
         return productMap;
     }
 
-    private boolean isCouponAvailableForProduct(CouponPolicy couponPolicy, ProductInfoDTO productInfo) {
+    public boolean isCouponAvailableForProduct(CouponPolicy couponPolicy, ProductInfoDTO productInfo) {
         // 쿠폰 정책에서 bookId가 null이 아니면 bookId가 일치하는지 확인
         if (couponPolicy.getBookPolicies() != null && !couponPolicy.getBookPolicies().isEmpty()) {
             boolean matches = couponPolicy.getBookPolicies().stream()
@@ -91,6 +79,17 @@ public class CouponListService {
         // 추가적인 쿠폰 유효성 검사 조건을 여기에 추가할 수 있습니다.
 
         return true;  // 모든 조건을 통과하면 쿠폰 사용 가능
+    }
+
+    //사용자ID로 해당 사용자가 가진 사용자 쿠폰 목록 검색
+    @Transactional(readOnly = true)
+    public List<UserCouponDTO> getCouponList(String userId) {
+        List<UserCoupon> userCoupons =userCouponRepository.findByUserId(userId);
+
+        // List<UserCoupon>을 List<UserCouponDTO>로 변환
+        return userCoupons.stream()
+                .map(userCouponMapper::toDTO) // toDTO 메서드를 사용하여 변환
+                .toList();
     }
 
     @Transactional(readOnly = true)

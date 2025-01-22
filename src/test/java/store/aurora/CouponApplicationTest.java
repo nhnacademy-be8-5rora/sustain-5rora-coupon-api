@@ -1,9 +1,12 @@
 package store.aurora;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@SpringBootTest // 전체 애플리케이션 컨텍스트 로드
+@ExtendWith(SpringExtension.class)  // JUnit 5 extension
+@SpringBootTest(classes = CouponApplication.class)
 class CouponApplicationTest {
 
     @Test
