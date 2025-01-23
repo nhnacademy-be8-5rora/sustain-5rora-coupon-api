@@ -10,7 +10,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import store.aurora.dto.response.PaymentCouponDTO;
 import store.aurora.service.CouponListService;
-import store.aurora.service.CouponService;
 
 import java.util.List;
 import java.util.Map;
@@ -25,9 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserCouponControllerTest {
 
     private MockMvc mockMvc;
-
-    @Mock
-    private CouponService couponService;
 
     @Mock
     private CouponListService couponListService;
