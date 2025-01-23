@@ -1,23 +1,8 @@
-#logging:
-#  level:
-#    org.springframework.web: WARN
-
-#nhn:
-#  storage:
-#    access-key: YOUR_ACCESS_KEY
-#    secret-key: YOUR_SECRET_KEY
-#    endpoint: https://kr.object.nhncloud.com/v1/AUTH_YOUR_PROJECT_ID
-#    bucket-name: YOUR_BUCKET_NAME
-
 server:
   port: 9480
 
 spring:
   datasource:
-#    url: jdbc:mysql://133.186.241.167:3306/nhn_academy_21?useSSL=false&serverTimezone=UTC
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: nhn_academy_21
-#    password: "*L]RAMG*8NYJnCKK"
     url: jdbc:mysql://133.186.241.167/project_be8_5rora_coupon?useSSL=false&serverTimezone=UTC
     username: project_be8_5rora
     password: oMyVE2dkskrCXF@t
@@ -37,6 +22,14 @@ spring:
       enabled: true
       max-file-size: 10MB      # 파일 크기 제한
       max-request-size: 10MB
+
+  data:
+    redis:
+      host: na
+      port: 0      #각자 쓰고있는 포트에 따라 변경
+      database: 1
+      username:
+      password: na
 
 api:
   gateway:

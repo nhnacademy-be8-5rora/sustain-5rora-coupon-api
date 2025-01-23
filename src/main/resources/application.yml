@@ -5,15 +5,9 @@ spring:
   application:
     name: coupon-api
   profiles:
-    active: dev # 프로파일 활성화
+    active: prod # 프로파일 활성화
   lifecycle:
     timeout-per-shutdown-phase: 30s
-
-  #    datasource:
-  #      url: jdbc:mysql://133.186.241.167:3306/nhn_academy_21?useSSL=false&serverTimezone=UTC
-  #      username: nhn_academy_21
-  #      password: oMyVE2dkskrCXF
-  #      driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     open-in-view: false
@@ -25,15 +19,8 @@ spring:
         highlight_sql: true
         auto_quote_keyword: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     defer-datasource-initialization: true  # ??? ?? ???? ??????. ?? JPA ???? ?????? ??? ?? ?? ?????? ?, ?????? ??? ???? ??? ?????.
-
-
-
-#  h2:
-#    console:
-#      enabled: true
-#      path: /h2-console
 
 eureka:
   client:
