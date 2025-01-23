@@ -35,11 +35,18 @@ class UserCouponListControllerTest {
     void testGetCouponList() throws Exception {
         // Given
         String userId = "123";
-        List<UserCouponDTO> userCouponList = List.of(
-                new UserCouponDTO("Spring Coupon", 100, 500, 10, 50,
-                        LocalDate.of(2025, 1, 1), LocalDate.of(2025, 12, 31),
-                        List.of(1L, 2L), List.of(10L, 20L))
-        );
+        UserCouponDTO userCoupon = new UserCouponDTO();
+        userCoupon.setCouponName("Spring Coupon");
+        userCoupon.setNeedCost(100);
+        userCoupon.setMaxSale(500);
+        userCoupon.setSalePercent(10);
+        userCoupon.setSaleAmount(50);
+        userCoupon.setStartDate(LocalDate.of(2025, 1, 1));
+        userCoupon.setEndDate(LocalDate.of(2025, 12, 31));
+        userCoupon.setBookIdList(List.of(1L, 2L));
+        userCoupon.setCategoryIdList(List.of(10L, 20L));
+
+        List<UserCouponDTO> userCouponList = List.of(userCoupon);
 
         Mockito.when(couponListService.getCouponList(userId)).thenReturn(userCouponList);
 

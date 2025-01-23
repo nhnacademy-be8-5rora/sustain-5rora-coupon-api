@@ -1,6 +1,7 @@
 package store.aurora.dto;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.List;
 //사용자에게 필요한 쿠폰 정보
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class UserCouponDTO {
     private String couponName;       // 쿠폰 ID
     private Integer needCost;
@@ -20,20 +22,5 @@ public class UserCouponDTO {
     private LocalDate endDate;   // 종료 날짜
     private List<Long> bookIdList;  //쿠폰 사용 가능한 책 ID
     private List<Long> categoryIdList; //쿠폰 사용 가능한 카테고리 ID
-
-    public UserCouponDTO() {}
-
-    public UserCouponDTO(String springCoupon, int i, int i1, int i2, int i3, LocalDate of
-            , LocalDate of1, List<Long> es, List<Long> es1) {
-        this.couponName = springCoupon;
-        this.needCost = i;
-        this.maxSale = i1;
-        this.salePercent = i2;
-        this.saleAmount = i3;
-        this.startDate = of;
-        this.endDate = of1;
-        this.bookIdList = es;
-        this.categoryIdList = es1;
-    }
 }
 
