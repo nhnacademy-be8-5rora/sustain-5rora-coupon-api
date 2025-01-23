@@ -31,14 +31,13 @@ class UsableCouponTest {
     private ProductInfoDTO productInfoDTO;
     private List<ProductInfoDTO> productInfoDTOList;
     private CouponPolicy couponPolicy;
-    private DiscountRule discountRule;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
         // Set up DiscountRule
-        discountRule = new DiscountRule();
+        DiscountRule discountRule = new DiscountRule();
         discountRule.setNeedCost(1000);
         discountRule.setMaxSale(500);
         discountRule.setSaleAmount(100);
@@ -73,7 +72,7 @@ class UsableCouponTest {
     @Test
     void testGetCouponListByCategory() {
         // Mock the repository to return a list of UserCoupons
-        List<UserCoupon> userCoupons = Arrays.asList(userCoupon);
+        List<UserCoupon> userCoupons = Collections.singletonList(userCoupon);
         when(userCouponRepository.findByUserId("user123")).thenReturn(userCoupons);
 
         // Call the method under test
