@@ -31,8 +31,10 @@ class CouponListServiceTest {
         // given
         String userId = "user123";
         List<UserCoupon> mockCoupons = List.of(
-                createUserCoupon("Coupon A", LocalDate.of(2025, 1, 1), LocalDate.of(2025, 1, 15), LocalDate.of(2025, 1, 10)),
-                createUserCoupon("Coupon B", LocalDate.of(2025, 1, 5), LocalDate.of(2025, 1, 20), LocalDate.of(2025, 1, 15))
+                createUserCoupon("Coupon A", LocalDate.of(2025, 1, 1),
+                        LocalDate.of(2025, 1, 15), LocalDate.of(2025, 1, 10)),
+                createUserCoupon("Coupon B", LocalDate.of(2025, 1, 5),
+                        LocalDate.of(2025, 1, 20), LocalDate.of(2025, 1, 15))
         );
 
         Mockito.when(userCouponRepository.findByUserIdAndState(userId, CouponState.USED))

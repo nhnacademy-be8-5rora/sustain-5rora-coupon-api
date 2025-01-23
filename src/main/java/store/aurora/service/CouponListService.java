@@ -100,8 +100,9 @@ public class CouponListService {
                 .map(userCoupon -> new UsedCouponDTO(
                         userCoupon.getPolicy().getName(),
                         userCoupon.getUsedDate(),
-                        userCoupon.getEndDate(),
-                        userCoupon.getStartDate()))
+                        userCoupon.getStartDate(),
+                        userCoupon.getEndDate())
+                        )
                 .toList();
     }
 }
