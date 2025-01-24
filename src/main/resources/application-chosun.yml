@@ -1,15 +1,13 @@
 server:
   port: 10154
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:1234@localhost:10155/eureka
 spring:
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 10MB      # 파일 크기 제한
-      max-request-size: 10MB
-
   datasource:
-    url: jdbc:mysql://10.116.64.14:13306/project_be8_5rora_db?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://10.116.64.14/project_be8_5rora_coupon?useSSL=false&serverTimezone=UTC
     username: project_be8_5rora
     password: oMyVE2dkskrCXF@t
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,30 +21,17 @@ spring:
       test-on-borrow: true             # 풀에서 가져올 때 유효성 검사
       test-while-idle: true            # 유휴 상태에서 유효성 검사
 
-  data:
-    redis:
-      host: na
-      port: 0      #각자 쓰고있는 포트에 따라 변경
-      database: 1
-      username:
-      password: na
-
-  #elasticSearch info
-  elasticsearch:
-    uris: http://10.116.64.14:9200
-    username: elastic
-    password: nhnacademy123!
-
-  rabbitmq:
-    host: 10.116.64.14
-    port: 15672
-    virtual-host: vh1_prod
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB      # 파일 크기 제한
+      max-request-size: 10MB
 
 api:
   gateway:
     base-url: localhost:10151
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://admin:1234@localhost:10155/eureka
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
