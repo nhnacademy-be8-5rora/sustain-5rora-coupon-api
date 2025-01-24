@@ -30,27 +30,26 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    - name: Run SonarQube
+      run: mvn clean verify sonar:sonar -Dsonar.projectKey=5rora-book-coupon -Dsonar.projectName='5rora-book-coupon' -Dsonar.host.url=${{secrets.SONAR_HOST}} -Dsonar.token=${{secrets.SONAR_TOKEN}}
 
-#    - name: Run SonarQube
-#      run: mvn clean verify sonar:sonar -Dsonar.projectKey=5rora-book-shop -Dsonar.projectName='5rora-book-shop' -Dsonar.host.url=${{secrets.SONAR_HOST}} -Dsonar.token=${{secrets.SONAR_TOKEN}}
+    - name : upload file
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SSH_IP }}
+        username: ${{ secrets.SSH_ID }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        source: "target/*.jar"
+        target: "~/"
+        rm: false
 
-#    - name : upload file
-#      uses: appleboy/scp-action@master
-#      with:
-#        host: ${{ secrets.SSH_IP }}
-#        username: ${{ secrets.SSH_ID }}
-#        key: ${{ secrets.SSH_KEY }}
-#        port: ${{ secrets.SSH_PORT }}
-#        source: "target/*.jar"
-#        target: "~/"
-#        rm: false
-#
-#    - name: execute shell script
-#      uses: appleboy/ssh-action@master
-#      with:
-#        host: ${{ secrets.SSH_IP }}
-#        username: ${{ secrets.SSH_ID }}
-#        key: ${{ secrets.SSH_KEY }}
-#        port: ${{ secrets.SSH_PORT }}
-#        script_stop: true
-#        script: "./startup-coupon.sh"
+    - name: execute shell script
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_IP }}
+        username: ${{ secrets.SSH_ID }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script_stop: true
+        script: "./startup/startup-coupon.sh"
